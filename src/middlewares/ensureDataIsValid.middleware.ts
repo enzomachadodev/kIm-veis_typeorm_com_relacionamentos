@@ -6,7 +6,7 @@ const ensureDataIsValidMiddleware =
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const validatedData = await schema.validate(req.body, {
-				abortEarly: false,
+				abortEarly: true,
 				stripUnknown: true,
 			});
 

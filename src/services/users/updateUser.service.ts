@@ -1,7 +1,7 @@
 import AppDataSource from "../../data-source";
 import { User } from "../../entities/user.entity";
 import { IUser, IUserUpdate } from "../../interfaces/users.interfaces";
-import { userResponseSerializer } from "../../serializers/user.serializers";
+import { userWithoutPasswordSerializer } from "../../serializers/user.serializers";
 
 const updateUserService = async (
 	userData: IUserUpdate,
@@ -20,12 +20,10 @@ const updateUserService = async (
 
 	await userRepository.save(updatedUser);
 
-	const updatedUserWithoutPassword = await userResponseSerializer.validate(
-		updatedUser,
-		{
+	const updatedUserWithoutPassword =
+		await userWithoutPasswordSerializer.validate(updatedUser, {
 			stripUnknown: true,
-		}
-	);
+		});
 
 	return updatedUserWithoutPassword;
 };

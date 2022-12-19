@@ -11,24 +11,30 @@ const ensureAuthMiddleware = async (
 
 	if (!token) {
 		return res.status(401).json({
-			message: "Invalid token!",
+			message: "Token does not exist!",
 		});
 	}
 
 	token = token.split(" ")[1];
 
-	jwt.verify(token, process.env.SECRET_KEY, (error, decoded: any) => {
-		if (error) {
-			return res.status(401).json({
-				message: error.message,
-			});
-		}
+	jwt.verify(
+		token,
+		process.env.SECRET_KEY as string,
+		(error, decoded: any) => {
+			if (error) {
+				return res.status(404).json({
+					message: error.message,
+				});
+			}
 
-		req.user = {
-			id: decoded.sub as number,
-			type: decoded.type,
-		};
-	});
+			req.user = {
+				id: decoded.sub as string,
+				type: decoded.type,
+			};
+
+			return next();
+		}
+	);
 };
 
-export ensureAuthMiddleware
+export default ensureAuthMiddleware;
