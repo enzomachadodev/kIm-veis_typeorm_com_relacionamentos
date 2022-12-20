@@ -20,8 +20,8 @@ const listUsersController = async (req: Request, res: Response) => {
 
 const updateUserController = async (req: Request, res: Response) => {
 	const userData: IUserUpdate = req.body;
-
 	const userId = req.params.id;
+
 	const updatedUser = await updateUserService(userData, userId);
 	return res.status(200).json(updatedUser);
 };
@@ -29,7 +29,7 @@ const deleteUserController = async (req: Request, res: Response) => {
 	const userId = req.params.id;
 	const deletedUser = await deleteUserService(userId);
 
-	return res.status(200).json(deletedUser);
+	return res.status(204).json(deletedUser);
 };
 
 export {

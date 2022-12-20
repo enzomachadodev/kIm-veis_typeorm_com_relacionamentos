@@ -9,8 +9,6 @@ const createUserService = async (userData: IUserRequest): Promise<IUser> => {
 	const createdUser = userRepository.create(userData);
 	await userRepository.save(createdUser);
 
-	console.log(createdUser);
-
 	const createdUserWithoutPassword =
 		await userWithoutPasswordSerializer.validate(createdUser, {
 			stripUnknown: true,

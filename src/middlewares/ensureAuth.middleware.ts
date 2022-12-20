@@ -11,7 +11,7 @@ const ensureAuthMiddleware = async (
 
 	if (!token) {
 		return res.status(401).json({
-			message: "Token does not exist!",
+			message: "Invalid token",
 		});
 	}
 

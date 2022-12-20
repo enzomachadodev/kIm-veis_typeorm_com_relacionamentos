@@ -11,6 +11,7 @@ const ensureUserIsActiveMiddleware = async (
 	const userRepo = AppDataSource.getRepository(User);
 
 	const user = await userRepo.findOneBy({ id: req.params.id });
+
 	if (!user?.isActive) {
 		throw new AppError("User is not active!", 400);
 	}

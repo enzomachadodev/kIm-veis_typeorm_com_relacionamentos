@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { string } from "yup";
 import AppDataSource from "../data-source";
 import { User } from "../entities/user.entity";
 import { AppError } from "../errors/AppError";
@@ -9,12 +10,11 @@ const ensureIsAdminMiddleware = async (
 	next: NextFunction
 ) => {
 	const userRepo = AppDataSource.getRepository(User);
-	const user = await userRepo.findOneBy({ id: req.user.id });
 
-	console.log(user, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+	const userLogado = await userRepo.findOneBy({ id: req.user.id });
 
-	if (user?.isAdm) {
-		throw new AppError("Admin permission required!", 403);
+	if (!userLogado?.isAdm) {
+		throw new AppError("unathorized", 403);
 	}
 	return next();
 };

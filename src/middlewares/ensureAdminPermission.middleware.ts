@@ -10,9 +10,14 @@ const ensureAdminPermissionMiddleware = async (
 ) => {
 	const userRepo = AppDataSource.getRepository(User);
 	const user = await userRepo.findOneBy({ id: req.params.id });
+	const userLogado = await userRepo.findOneBy({ id: req.user.id });
 
-	if (user?.id != req.user.id) {
-		throw new AppError("Admin permission required!", 401);
+	if (user?.id != userLogado?.id) {
+		if (!userLogado?.isAdm) {
+			throw new AppError("unathorized", 401);
+		}
+
+		return next();
 	}
 
 	return next();

@@ -7,10 +7,11 @@ const deleteUserService = async (userId: string): Promise<IUser> => {
 
 	const foundUser: any = await userRepo.findOneBy({ id: userId });
 
-	await userRepo.softRemove(foundUser);
-	const user = await userRepo.save({ ...foundUser, isActive: false });
+	await userRepo.softDelete(foundUser);
 
-	return user;
+	const deletedUser = await userRepo.save({ ...foundUser, isActive: false });
+
+	return deletedUser;
 };
 
 export default deleteUserService;

@@ -16,6 +16,7 @@ import {
 	userRequestSerializer,
 	userUpdateSerializer,
 } from "../serializers/user.serializers";
+import ensureUpdateDataMiddleware from "../middlewares/ensureUpdateData.middleware";
 
 const userRoutes = Router();
 
@@ -26,15 +27,21 @@ userRoutes.post(
 	createUserController
 );
 
-userRoutes.get("", ensureAuthMiddleware, listUsersController);
+userRoutes.get(
+	"",
+	ensureAuthMiddleware,
+	ensureIsAdminMiddleware,
+	listUsersController
+);
 
 userRoutes.patch(
 	"/:id",
 	ensureAuthMiddleware,
-	ensureDataIsValidMiddleware(userUpdateSerializer),
+	ensureUpdateDataMiddleware,
+	ensureAdminPermissionMiddleware,
 	ensureUserExistsMiddleware,
 	ensureUserIsActiveMiddleware,
-	ensureAdminPermissionMiddleware,
+	ensureDataIsValidMiddleware(userUpdateSerializer),
 	updateUserController
 );
 userRoutes.delete(
