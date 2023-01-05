@@ -6,10 +6,7 @@ import { compare } from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
-const createSessionService = async ({
-	email,
-	password,
-}: IUserLogin): Promise<string> => {
+const createSessionService = async ({ email, password }: IUserLogin): Promise<string> => {
 	const userRepository = AppDataSource.getRepository(User);
 
 	const user = await userRepository.findOneBy({
@@ -28,6 +25,7 @@ const createSessionService = async ({
 
 	const token = jwt.sign(
 		{
+			email: user.email,
 			isAdm: user.isAdm,
 		},
 		process.env.SECRET_KEY as string,

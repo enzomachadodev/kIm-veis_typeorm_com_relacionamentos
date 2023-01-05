@@ -5,10 +5,6 @@ import { userLoginSerializer } from "../serializers/user.serializers";
 
 const sessionRoutes = Router();
 
-sessionRoutes.post(
-	"",
-	ensureDataIsValidMiddleware(userLoginSerializer),
-	createSessionController
-);
+sessionRoutes.post("", ensureDataIsValidMiddleware(userLoginSerializer), createSessionController);
 
 export default sessionRoutes;

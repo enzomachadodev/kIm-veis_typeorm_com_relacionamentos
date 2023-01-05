@@ -6,7 +6,8 @@ declare global {
 			validatedBody: object;
 			user: {
 				id: string;
-				type: string;
+				email: string;
+				isAdm: boolean;
 			};
 		}
 	}
