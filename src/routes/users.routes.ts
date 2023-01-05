@@ -22,7 +22,6 @@ userRoutes.patch(
 	"/:id",
 	ensureAuthMiddleware,
 	ensureUserExistsMiddleware,
-	ensureUserIsActiveMiddleware,
 	ensureDataIsValidMiddleware(userUpdateSerializer),
 	updateUserController
 );
